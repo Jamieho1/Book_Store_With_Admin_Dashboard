@@ -1,8 +1,8 @@
-import { users } from "@/database/schema";
 import { serve } from "@upstash/workflow/nextjs";
+import { db } from "@/database/drizzle";
+import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
-import {db} from "@/database/drizzle";
-import {sendEmail} from "@/lib/actions/workflow";
+import { sendEmail } from "@/lib/actions/workflow";
 
 type UserState = "non-active" | "active";
 
@@ -11,16 +11,17 @@ type InitialData = {
   fullName: string;
 };
 
-const ONE_DAY_IN_MS= 24*60*60*1000;
-const THREE_DAYS_IN_MS= 3 * ONE_DAY_IN_MS;
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+const THREE_DAYS_IN_MS = 3 * ONE_DAY_IN_MS;
 const THIRTY_DAYS_IN_MS = 30 * ONE_DAY_IN_MS;
 
-const getUserState = async(email:string): Promise<UserState> => {
+const getUserState = async (email: string): Promise<UserState> => {
   const user = await db
       .select()
       .from(users)
-      .where(eq(users.email,email))
+      .where(eq(users.email, email))
       .limit(1);
+
   if (user.length === 0) return "non-active";
 
   const lastActivityDate = new Date(user[0].lastActivityDate!);
@@ -33,8 +34,9 @@ const getUserState = async(email:string): Promise<UserState> => {
   ) {
     return "non-active";
   }
+
   return "active";
-}
+};
 
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload;
@@ -44,7 +46,7 @@ export const { POST } = serve<InitialData>(async (context) => {
     await sendEmail({
       email,
       subject: "Welcome to the platform",
-      message: `Welcome ${fullName}`,
+      message: `Welcome ${fullName}!`,
     });
   });
 
@@ -61,8 +63,7 @@ export const { POST } = serve<InitialData>(async (context) => {
           email,
           subject: "Are you still there?",
           message: `Hey ${fullName}, we miss you!`,
-            }
-        );
+        });
       });
     } else if (state === "active") {
       await context.run("send-email-active", async () => {
@@ -77,5 +78,3 @@ export const { POST } = serve<InitialData>(async (context) => {
     await context.sleep("wait-for-1-month", 60 * 60 * 24 * 30);
   }
 });
-
-

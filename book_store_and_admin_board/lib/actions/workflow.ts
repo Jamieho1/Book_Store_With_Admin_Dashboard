@@ -4,26 +4,32 @@ import config from "@/lib/config";
 
 export const workflowClient = new WorkflowClient({
   baseUrl: config.env.upstash.qstashUrl,
-  token: config.env.upstash.qstackToken,
+  token: config.env.upstash.qstashToken,
 });
 
-
-const qstashclient = new QStashClient({
-  token: config.env.upstash.qstackToken
+const qstashClient = new QStashClient({
+  token: config.env.upstash.qstashToken,
 });
 
-export const sendEmail = async ({email, subject, message}: {email: string, subject:string, message: string}) => {
-
-  await qstashclient.publishJSON({
+export const sendEmail = async ({
+                                  email,
+                                  subject,
+                                  message,
+                                }: {
+  email: string;
+  subject: string;
+  message: string;
+}) => {
+  await qstashClient.publishJSON({
     api: {
       name: "email",
-      provider: resend({token: config.env.resendToken}),
+      provider: resend({ token: config.env.resendToken }),
     },
     body: {
-      from: "Jamie Ho <ahuman2002@gmail.com>",
+      from: "Jamie Ho <jmetp2020@gmail.com>",
       to: [email],
       subject,
       html: message,
     },
   });
-}
+};
