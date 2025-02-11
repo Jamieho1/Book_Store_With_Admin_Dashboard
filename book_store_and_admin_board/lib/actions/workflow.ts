@@ -26,7 +26,7 @@ export const sendEmail = async ({
       provider: resend({ token: config.env.resendToken }),
     },
     body: {
-      from: "Jamie Ho <jmetp2020@gmail.com>",
+      from: "Jamie Ho <jmetp2020@gmail.com>", //need to buy domain from hostinger for resend to send email
       to: [email],
       subject,
       html: message,
