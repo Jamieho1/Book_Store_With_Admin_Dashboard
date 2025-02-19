@@ -15,11 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { bookSchema } from "@/lib/validations";
-// import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
-// import ColorPicker from "@/components/admin/ColorPicker";
-// import { createBook } from "@/lib/admin/actions/book";
+import ColorPicker from "@/components/admin/ColorPicker";
+import { createBook } from "@/lib/admin/actions/book";
 import { toast } from "@/hooks/use-toast";
 
 interface Props extends Partial<Book> {
@@ -46,22 +46,22 @@ const BookForm = ({ type, ...book }: Props) => {
     });
 
     const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-        // const result = await createBook(values);
+        const result = await createBook(values);
 
-        // if (result.success) {
-        //     toast({
-        //         title: "Success",
-        //         description: "Book created successfully",
-        //     });
-        //
-        //     router.push(`/admin/books/${result.data.id}`);
-        // } else {
-        //     toast({
-        //         title: "Error",
-        //         description: result.message,
-        //         variant: "destructive",
-        //     });
-        // }
+        if (result.success) {
+            toast({
+                title: "Success",
+                description: "Book created successfully",
+            });
+
+            router.push(`/admin/books/${result.data.id}`);
+        } else {
+            toast({
+                title: "Error",
+                description: result.message,
+                variant: "destructive",
+            });
+        }
     };
 
     return (
@@ -183,15 +183,15 @@ const BookForm = ({ type, ...book }: Props) => {
                                 Book Image
                             </FormLabel>
                             <FormControl>
-                                {/*<FileUpload*/}
-                                {/*    type="image"*/}
-                                {/*    accept="image/*"*/}
-                                {/*    placeholder="Upload a book cover"*/}
-                                {/*    folder="books/covers"*/}
-                                {/*    variant="light"*/}
-                                {/*    onFileChange={field.onChange}*/}
-                                {/*    value={field.value}*/}
-                                {/*/>*/}
+                                <FileUpload
+                                    type="image"
+                                    accept="image/*"
+                                    placeholder="Upload a book cover"
+                                    folder="books/covers"
+                                    variant="light"
+                                    onFileChange={field.onChange}
+                                    value={field.value}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -206,10 +206,10 @@ const BookForm = ({ type, ...book }: Props) => {
                                 Primary Color
                             </FormLabel>
                             <FormControl>
-                                {/*<ColorPicker*/}
-                                {/*    onPickerChange={field.onChange}*/}
-                                {/*    value={field.value}*/}
-                                {/*/>*/}
+                                <ColorPicker
+                                    onPickerChange={field.onChange}
+                                    value={field.value}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -224,12 +224,12 @@ const BookForm = ({ type, ...book }: Props) => {
                                 Book Description
                             </FormLabel>
                             <FormControl>
-                                {/*<Textarea*/}
-                                {/*    placeholder="Book description"*/}
-                                {/*    {...field}*/}
-                                {/*    rows={10}*/}
-                                {/*    className="book-form_input"*/}
-                                {/*/>*/}
+                                <Textarea
+                                    placeholder="Book description"
+                                    {...field}
+                                    rows={10}
+                                    className="book-form_input"
+                                />
                             </FormControl>
 
                             <FormMessage />
@@ -246,15 +246,15 @@ const BookForm = ({ type, ...book }: Props) => {
                                 Book Trailer
                             </FormLabel>
                             <FormControl>
-                                {/*<FileUpload*/}
-                                {/*type="video"*/}
-                                {/*accept="video/*"*/}
-                                {/*placeholder="Upload a book trailer"*/}
-                                {/*folder="books/videos"*/}
-                                {/*variant="light"*/}
-                                {/*onFileChange={field.onChange}*/}
-                                {/* value={field.value}*/}
-                                {/*/>*/}
+                                <FileUpload
+                                type="video"
+                                accept="video/*"
+                                placeholder="Upload a book trailer"
+                                folder="books/videos"
+                                variant="light"
+                                onFileChange={field.onChange}
+                                value={field.value}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -269,12 +269,12 @@ const BookForm = ({ type, ...book }: Props) => {
                                 Book Summary
                             </FormLabel>
                             <FormControl>
-                                {/*<Textarea*/}
-                                {/*    placeholder="Book summary"*/}
-                                {/*    {...field}*/}
-                                {/*    rows={5}*/}
-                                {/*    className="book-form_input"*/}
-                                {/*/>*/}
+                                <Textarea
+                                    placeholder="Book summary"
+                                    {...field}
+                                    rows={5}
+                                    className="book-form_input"
+                                />
                             </FormControl>
 
                             <FormMessage />
