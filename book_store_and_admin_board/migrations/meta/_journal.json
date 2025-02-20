@@ -8,6 +8,13 @@
       "when": 1739116247815,
       "tag": "0000_normal_hydra",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1740006735541,
+      "tag": "0001_short_maestro",
+      "breakpoints": true
     }
   ]
 }
