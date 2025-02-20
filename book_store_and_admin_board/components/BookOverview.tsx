@@ -12,11 +12,11 @@ const BookOverview = async ({
   author,
   genre,
   rating,
-  total_copies,
-  available_copies,
+  totalCopies,
+  availableCopies,
   description,
-  color,
-  cover,
+  coverColor,
+  coverUrl,
 }: Book) => {
   return (
       <section className="book-overview">
@@ -38,10 +38,10 @@ const BookOverview = async ({
 
             <div className="book-copies">
               <p>
-                Total Books: <span>{total_copies}</span>
+                Total Books: <span>{totalCopies}</span>
               </p>
               <p>
-                Available Books: <span>{available_copies}</span>
+                Available Books: <span>{availableCopies}</span>
               </p>
             </div>
 
@@ -60,12 +60,12 @@ const BookOverview = async ({
             <BookCover
                 variant="wide"
                 className="z-10"
-                coverColor={color}
-                coverImage={cover}
+                coverColor={coverColor}
+                coverImage={coverUrl}
             />
             {/* Overlayed Background Book Cover */}
             <div className="absolute left-16 top-10 rotate-12 opacity-40 max-sm:hidden">
-              <BookCover variant="wide" coverColor={color} coverImage={cover} />
+              <BookCover variant="wide" coverColor={coverColor} coverImage={coverUrl} />
             </div>
           </div>
         </div>
