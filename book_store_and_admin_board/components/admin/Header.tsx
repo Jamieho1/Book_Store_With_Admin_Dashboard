@@ -12,7 +12,7 @@ const Header = ({ session }: { session: Session }) => {
                 </p>
             </div>
 
-            {/*<p>Search</p>*/}
+            <p>Search</p>
         </header>
     );
 };
